@@ -390,7 +390,7 @@ users.")
 38 return Response({'message': 'User deleted successfully'},
 status=status.HTTP_204_NO_CONTENT)
 19
-В.3 Адміністрування бази даних.
+В.3 Резервне копіювання користувацьких даних.
 Github репозиторій: https://github.com/NureSharaievBohdan/apz-pzpi-22-6-
 sharaiev-bohdan/blob/main/Lab2/pzpi-22-6-sharaiev-bohdanlab2/maintenance/views.py
 1 class CreateBackup(APIView):
