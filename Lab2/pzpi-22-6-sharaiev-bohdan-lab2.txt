@@ -1,1 +1,416 @@
+МІНІСТЕРСТВО ОСВІТИ ТА НАУКИ УКРАЇНИ
+ХАРКІВСЬКИЙ НАЦІОНАЛЬНИЙ УНІВЕРСИТЕТ РАДІОЕЛЕКТРОНІКИ
+Кафедра Програмної інженерії
+ЗВІТ
+З дисципліни «Архітектура програмного забезпечення»
+З лабораторної роботи №2
+На тему: «Серверна частина програмного застосунку»
 
+Виконав: 
+Ст. гр. ПЗПІ-22-6 
+Шараєв Б. О. 
+
+Перевірив:
+Ст. вик. каф. ПІ
+Сокорчук І. П.
+
+Харків 2025
+2
+
+1 ІСТОРІЯ ЗМІН
+Зміни звіту наведені у таблиці 1.1
+Таблиця 1.1 – Історія змін
+№ Дата Версія звіту Опис змін
+1 10.05.2025 0.1 Створено розділ «Історія змін»
+2 10.05.2025 0.1 Створено розділ «Завдання»
+3 11.05.2025 0.1 Створено розділ “Опис виконаної роботи”
+4 11.05.2025 0.1 Створено розділ “Висновки”
+5 12.05.2025 0.1 Додано додаток Б
+6 13.05.2025 0.1 Додані посилання і хронологічний опис
+доповіді у Додаток А
+7 13.05.2025 0.1 Додано код у Додаток В
+3
+
+
+2 ЗАВДАННЯ
+1. Розробити серверну частину програмної системи.
+2. Відкрити створений на попередній лабораторній роботі репозиторій
+GitHub.
+3. Створіть у репозиторії директорію Lab2 та текстовий файл з описом
+інженерних рішень у цій частині проєкту.
+4. Зафіксуйте кожну внесену зміну командою git commit з відповідним
+коментарем та фіксуйте цією командою усі наступні зміни у проекті.
+5. Створіть у директорії Task2 піддиректорію для програмного коду.
+6. Створіть програмний код, завантажте його у створену піддиректорію,
+зафіксуйте внесені у репозиторій зміни.
+7. Виконайте функціональне тестування створеного програмного коду та
+створіть відеозапис цього тестування тривалістю 7-10 хвилин з усними
+поясненнями процесу тестування.
+8. Завантажте створений відеозапис тестування YouTube канал для вашого
+облікового запису в домені @nure.ua
+9. Створіть для завантаженого запису його хронологічний опис.
+10.Оформіть звіт у форматі pdf та завантажте його на навчальну платформу
+https://dl.nure.ua/
+11.У коментарях до завантаженого звіту вкажіть посилання на відеозапис
+тестування у вашому каналі YouTube.
+4
+
+
+3 ОПИС ВИКОНАНОЇ РОБОТИ
+Програмна система має клієнт-серверну архітектуру. Серверна частина
+побудована за допомогою фреймворку Django, що працює на мові
+програмування Python, і для зберігання даних використовується PostgreSQL.
+Для автентифікації користувачів застосовуються JWT токени (JSON Web
+Tokens). Вся система орієнтована на взаємодію через API для обміну даними
+між клієнтом і сервером.
+Серверна частина системи включає кілька основних модулів. Модуль
+авторизації забезпечує реєстрацію та вхід користувачів через автентифікацію.
+Керування сенсорами дозволяє користувачам додавати, редагувати та видаляти
+сенсори для збору даних про рівень радіації. Створення звітів формує звіти на
+основі даних сенсорів. Прогнозування рівня радіації надає прогнози для
+подальшого планування. Модуль адміністрування забезпечує управління
+користувачами, сенсорами, бекапами та міграціями даних.
+Опис бази даних системи:
+Таблиця 1 – Таблиця "Users"
+id INT <PK>
+username VARCHAR(50)
+email VARCHAR(100)
+password_hash VARCHAR(255)
+Role VARCHAR(20)
+created_at DATETIME
+Таблиця 2 - Таблиця "Sensors"
+id INT <PK>
+user_id INT <FK>
+sensor_name VARCHAR(50)
+status VARCHAR(20)
+5
+last_update DATETIME
+location_id INT <FK>
+Таблиця 3 – Таблиця "Locations"
+id INT <PK>
+latitude DECIMAL(9,6)
+longitude DECIMAL(9,6)
+city VARCHAR(50)
+description VARCHAR(255)
+Таблиця 4 - Таблиця "RadiationData"
+id INT <PK>
+sensor_id INT <FK>
+radiation_level DECIMAL(5,2)
+measured_at DATETIME
+alert_triggered BIT
+Таблиця 5 - Таблиця "Alerts"
+id INT <PK>
+sensor_id INT <FK>
+alert_message VARCHAR(255)
+alert_level VARCHAR(20)
+triggered_at DATETIME
+resolved BIT
+Таблиця 6 - Таблиця "Reports"
+id INT <PK>
+user_id INT <FK>
+sensor_id INT <FK>
+6
+report_name VARCHAR(100)
+created_at DATETIME
+report_path VARCHAR(255)
+Опис специфікацій REST API програмної системи:
+Таблиця 7 – Специфікація розробленого API.
+Метод запиту Шлях Пояснення
+POST /auth/login/ Авторизація
+користувача.
+Повертає JWT
+токени.
+GET /users/ Запит списку всіх
+користувачів.
+POST /users/ Створення нового
+користувача.
+GET /users/<int:id>/ Запит інформації
+про конкретного
+користувача.
+PUT /users/<int:id>/ Оновлення
+інформації
+конкретного
+користувача.
+DELETE /users/<int:id>/ Видалення
+користувача.
+GET /users/<int:id>/sensors/ Запит датчиків
+конкретного
+користувача.
+7
+GET /users/<int:id>/reports/ Запит звітів
+конкретного
+користувача
+GET /locations/ Запит списку всіх
+локацій.
+POST /locations/ Створення нової
+локації.
+GET /locations/<int:id>/ Запит інформації
+про конкретну
+локацію.
+PUT /locations/<int:id>/ Оновлення локації.
+DELETE /locations/<int:id>/ Видалення локації.
+GET /sensors/ Запит списку всіх
+датчиків.
+POST /sensors/ Створення нового
+датчика.
+GET /sensors/<int:id>/ Запит інформації
+про конкретний
+датчик.
+PUT /sensors/<int:id>/ Оновлення
+інформації
+конкретного
+датчика.
+DELETE /sensors/<int:id>/ Видалення датчика.
+GET /sensors/<int:id>/radiation-data/ Запит даних
+радіації для
+конкретного
+датчика.
+8
+GET /radiation-data/ Запит усіх даних
+про радіацію.
+POST /radiation-data/ Додавання нових
+даних про радіацію.
+GET /radiation-data/<int:id>/ Запит конкретних
+даних про радіацію.
+DELETE /radiation-data/<int:id>/ Видалення
+конкретних даних
+про радіацію.
+GET /radiation-data/forecast/<int:id> Створення
+прогнозу рівня
+радіації для
+сенсору.
+GET /alerts/ Запит списку всіх
+попереджень.
+POST /alerts/ Створення нового
+попередження.
+GET /alerts/<int:id>/ Запит конкретного
+попередження.
+DELETE /alerts/<int:id>/ Видалення
+конкретного
+попередження.
+GET /reports/ Запит усіх звітів.
+POST /reports/ Створення нового
+звіту.
+GET /reports/<int:id>/ Запит конкретного
+звіту.
+DELETE /reports/<int:id>/ Видалення
+конкретного звіту.
+9
+GET /reports/generate/<int:id>/<str:datestart>/<str:date-end>/
+Створення звіту для
+сенсору в певному
+діапазоні дат
+POST /maintenance/create-backup/ Створення бекапу
+БД.
+POST /maintenance/restore-backup/ Відновлення бекапу
+БД.
+POST /maintenance/make-migrations/ Створення міграцій
+БД.
+10
+
+
+4 ВИСНОВКИ
+Під час виконання лабораторної робти, було створено серверну частину
+програмної системи RadGuard за допомогою фреймворку Django.
+11
+
+
+ДОДАТОК А
+Посилання на відеозапис доповіді та текст хронологічного опису доповіді
+Відеозапис доповіді на YouTube: https://youtu.be/JTFEsWijV7g
+Хронологічний опис доповіді:
+00:00 - Вступна частина.
+00:11 - Тестування реєстрації/входу.
+00:38 - Тестування управління профілем користувача.
+01:20 - Тестування взаємодії з сенсорами.
+03:30 - Тестування додавання записів про рівень радіації.
+04:01 - Тестування бізнес-логіки прогнозування.
+04:21 - Тестування взаємодії з сповіщеннями.
+05:18 - Тестування взаємодії з локаціями.
+05:51 - Тестування взаємодії зі звітами.
+07:03 - Створення облікового запису адміністратора.
+07:34 - Тестування адміністрування системи.
+09:24 - Тестування адміністрування бази даних.
+12
+
+
+ДОДАТОК Б
+Графічні матеріали
+Рисунок Б.1 – UML діаграма розгортання.
+13
+Рисунок Б.2 – UML діаграма прицедентів користувача з системою.
+14
+Рисунок Б.3 – UML діаграма прицедентів адміністратора з системою.
+15
+Рисунок Б.4 – ER діаграма
+Рисунок Б.5 – UML діаграма компонентів
+16
+
+
+ДОДАТОК В
+Програмний код
+В.1 Математичне прогнозування рівня радіації.
+Github репозиторій: https://github.com/NureSharaievBohdan/apz-pzpi-22-6-
+sharaiev-bohdan/blob/main/Lab2/pzpi-22-6-sharaiev-bohdanlab2/radiationdata/views.py
+1 class ForecastView(APIView):
+2 permission_classes = [IsAuthenticated]
+3
+4 def get(self, request, id):
+5 try:
+6 sensor = Sensor.objects.get(id=id)
+7
+8 data =
+RadiationData.objects.filter(sensor=sensor).order_by('measured_a
+t')
+9
+10 if data.count() < 2:
+11 return Response({"error": "Not enough data
+for prediction"}, status=400)
+12
+13 times = []
+14 radiation_levels = []
+15 first_time = data.first().measured_at
+16
+17 for obj in data:
+18 time_diff = (obj.measured_at -
+first_time).total_seconds()
+19 times.append(time_diff)
+20
+radiation_levels.append(float(obj.radiation_level))
+21
+22 n = len(times)
+23 mean_time = sum(times) / n
+17
+24 mean_radiation = sum(radiation_levels) / n
+25
+26 numerator = sum((times[i] - mean_time) *
+(radiation_levels[i] - mean_radiation) for i in range(n))
+27 denominator = sum((times[i] - mean_time) ** 2 for
+i in range(n))
+28
+29 slope = numerator / denominator
+30 intercept = mean_radiation - slope * mean_time
+31
+32 time_diff = (data.last().measured_at -
+data[data.count() - 2].measured_at).total_seconds()
+33 next_time = data.last().measured_at +
+timedelta(seconds=time_diff)
+34
+35 predict_time = (next_time -
+first_time).total_seconds()
+36 predicted_radiation = slope * predict_time +
+intercept
+37
+38 return Response({
+39 "predicted_radiation": predicted_radiation,
+40 }, status=200)
+41
+42 except Sensor.DoesNotExist:
+43 return Response({"error": "Sensor not found"},
+status=404)
+44 except Exception as e:
+45 return Response({"error": str(e)}, status=500)
+18
+В.2 Адміністрування облікових записів користувачів.
+Github репозиторій: https://github.com/NureSharaievBohdan/apz-pzpi-22-6-
+sharaiev-bohdan/blob/main/Lab2/pzpi-22-6-sharaiev-bohdanlab2/accounts/views.py
+1 class UserDetail(APIView):
+2 permission_classes = [IsAuthenticated, IsOwnerPermission]
+3
+4 def get_object(self, id):
+5 user = User.objects.filter(id=id).first()
+6 if not user:
+7 raise PermissionDenied("User not found")
+8 return user
+9
+10 def get(self, request, id):
+11 user = self.get_object(id)
+12 self.check_object_permissions(request, user)
+13 return Response(UserSerializer(user).data)
+14
+15 def put(self, request, id):
+16 user = self.get_object(id)
+17
+18 if request.user != user and request.user.role != 'admin':
+19 raise PermissionDenied("You can only edit your own
+profile.")
+20
+21 data = request.data.copy()
+22 if request.user.role != 'admin':
+23 data.pop('role', None)
+24
+25 serializer = UserSerializer(user, data=data,
+partial=True)
+26 if serializer.is_valid():
+27 serializer.save()
+28 return Response(serializer.data)
+29 return Response(serializer.errors,
+status=status.HTTP_400_BAD_REQUEST)
+30
+31 def delete(self, request, id):
+32 user = self.get_object(id)
+33
+34 if request.user.role != 'admin':
+35 raise PermissionDenied("Only admin can delete
+users.")
+36
+37 user.delete()
+38 return Response({'message': 'User deleted successfully'},
+status=status.HTTP_204_NO_CONTENT)
+19
+В.3 Адміністрування бази даних.
+Github репозиторій: https://github.com/NureSharaievBohdan/apz-pzpi-22-6-
+sharaiev-bohdan/blob/main/Lab2/pzpi-22-6-sharaiev-bohdanlab2/maintenance/views.py
+1 class CreateBackup(APIView):
+2 permission_classes = [IsAdminUserPermission]
+3
+4 def post(self, request):
+5 db_config = settings.DATABASES['default']
+6 db_name = db_config['NAME']
+7 db_user = db_config['USER']
+8 db_host = db_config['HOST']
+9 db_port = db_config['PORT']
+10 db_password = db_config['PASSWORD']
+11
+12 backup_dir = os.path.join(settings.BASE_DIR,
+'backups')
+13 os.makedirs(backup_dir, exist_ok=True)
+14
+15 timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+16 backup_filename = f"{db_name}_backup_{timestamp}.sql"
+17 backup_filepath = os.path.join(backup_dir,
+backup_filename)
+18
+19 dump_command = [
+20 'pg_dump',
+21 f'--host={db_host}',
+22 f'--port={db_port}',
+23 f'--username={db_user}',
+24 f'--no-password',
+25 '--format=c',
+26 '--file', backup_filepath,
+27 db_name,
+20
+28 ]
+29
+30 os.environ['PGPASSWORD'] = db_password
+31
+32 try:
+33 subprocess.run(dump_command, check=True)
+34
+35 return Response({
+36 'status': 'success',
+37 'message': f'Бекап успішно створений:
+{backup_filepath}',
+38 'backup_filepath': backup_filepath
+39 }, status=status.HTTP_200_OK)
+40
+41 except subprocess.CalledProcessError as e:
+42 return Response({
+43 'status': 'error',
+44 'message': f'Помилка при створенні бекапу:
+{str(e)}'
+45 }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+46
+47 finally:
+48 del os.environ['PGPASSWORD']
