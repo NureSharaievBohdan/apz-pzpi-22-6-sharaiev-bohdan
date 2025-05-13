@@ -282,7 +282,7 @@ POST /maintenance/make-migrations/ Створення міграцій
 ДОДАТОК В
 Програмний код
 В.1 Математична обробка прикладних даних.
-Github репозиторій: https://github.com/NureSharaievBohdan/apz-pzpi-22-6-
+GitHub репозиторій: https://github.com/NureSharaievBohdan/apz-pzpi-22-6-
 sharaiev-bohdan/blob/main/Lab2/pzpi-22-6-sharaiev-bohdanlab2/radiationdata/views.py
 1 class ForecastView(APIView):
 2 permission_classes = [IsAuthenticated]
@@ -344,7 +344,7 @@ status=404)
 45 return Response({"error": str(e)}, status=500)
 18
 В.2 Адміністрування бізнес-логіки системи.
-Github репозиторій: https://github.com/NureSharaievBohdan/apz-pzpi-22-6-sharaiev-bohdan/blob/main/Lab2/pzpi-22-6-sharaiev-bohdan-lab2/reports/views.py
+GitHub репозиторій: https://github.com/NureSharaievBohdan/apz-pzpi-22-6-sharaiev-bohdan/blob/main/Lab2/pzpi-22-6-sharaiev-bohdan-lab2/reports/views.py
  1 class GenerateReport(APIView):
  2     permission_classes = [IsAuthenticated]
  3 
@@ -420,7 +420,7 @@ Github репозиторій: https://github.com/NureSharaievBohdan/apz-pzpi-22
 73         return Response(serializer.data)
 19
 В.3 Резервне копіювання користувацьких даних.
-Github репозиторій: https://github.com/NureSharaievBohdan/apz-pzpi-22-6-
+GitHub репозиторій: https://github.com/NureSharaievBohdan/apz-pzpi-22-6-
 sharaiev-bohdan/blob/main/Lab2/pzpi-22-6-sharaiev-bohdanlab2/maintenance/views.py
 1 class CreateBackup(APIView):
 2 permission_classes = [IsAdminUserPermission]
