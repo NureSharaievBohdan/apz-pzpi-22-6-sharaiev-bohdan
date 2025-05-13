@@ -281,7 +281,7 @@ POST /maintenance/make-migrations/ Створення міграцій
 
 ДОДАТОК В
 Програмний код
-В.1 Математичне прогнозування рівня радіації.
+В.1 Математична обробка прикладних даних.
 Github репозиторій: https://github.com/NureSharaievBohdan/apz-pzpi-22-6-
 sharaiev-bohdan/blob/main/Lab2/pzpi-22-6-sharaiev-bohdanlab2/radiationdata/views.py
 1 class ForecastView(APIView):
