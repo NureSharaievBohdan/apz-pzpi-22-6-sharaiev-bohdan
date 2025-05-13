@@ -343,52 +343,81 @@ status=404)
 44 except Exception as e:
 45 return Response({"error": str(e)}, status=500)
 18
-В.2 Адміністрування облікових записів користувачів.
-Github репозиторій: https://github.com/NureSharaievBohdan/apz-pzpi-22-6-
-sharaiev-bohdan/blob/main/Lab2/pzpi-22-6-sharaiev-bohdanlab2/accounts/views.py
-1 class UserDetail(APIView):
-2 permission_classes = [IsAuthenticated, IsOwnerPermission]
-3
-4 def get_object(self, id):
-5 user = User.objects.filter(id=id).first()
-6 if not user:
-7 raise PermissionDenied("User not found")
-8 return user
-9
-10 def get(self, request, id):
-11 user = self.get_object(id)
-12 self.check_object_permissions(request, user)
-13 return Response(UserSerializer(user).data)
-14
-15 def put(self, request, id):
-16 user = self.get_object(id)
-17
-18 if request.user != user and request.user.role != 'admin':
-19 raise PermissionDenied("You can only edit your own
-profile.")
-20
-21 data = request.data.copy()
-22 if request.user.role != 'admin':
-23 data.pop('role', None)
-24
-25 serializer = UserSerializer(user, data=data,
-partial=True)
-26 if serializer.is_valid():
-27 serializer.save()
-28 return Response(serializer.data)
-29 return Response(serializer.errors,
-status=status.HTTP_400_BAD_REQUEST)
-30
-31 def delete(self, request, id):
-32 user = self.get_object(id)
-33
-34 if request.user.role != 'admin':
-35 raise PermissionDenied("Only admin can delete
-users.")
-36
-37 user.delete()
-38 return Response({'message': 'User deleted successfully'},
-status=status.HTTP_204_NO_CONTENT)
+В.2 Адміністрування бізнес-логіки системи.
+Github репозиторій: https://github.com/NureSharaievBohdan/apz-pzpi-22-6-sharaiev-bohdan/blob/main/Lab2/pzpi-22-6-sharaiev-bohdan-lab2/reports/views.py
+ 1 class GenerateReport(APIView):
+ 2     permission_classes = [IsAuthenticated]
+ 3 
+ 4     def get(self, request, sensor_id: int, start_date: str, end_date: str) -> Response:
+ 5         user = request.user
+ 6 
+ 7         try:
+ 8             start_date = datetime.strptime(start_date, '%Y-%m-%d')
+ 9             end_date = datetime.strptime(end_date, '%Y-%m-%d')
+10         except ValueError:
+11             return Response({"error": "Invalid date format. Use 'YYYY-MM-DD'."}, status=status.HTTP_400_BAD_REQUEST)
+12 
+13         try:
+14             sensor = Sensor.objects.get(id=sensor_id)
+15         except Sensor.DoesNotExist:
+16             return Response({"error": "Sensor not found"}, status=status.HTTP_404_NOT_FOUND)
+17 
+18         is_user_sensor = Sensor.objects.filter(id=sensor_id, user=user).first()
+19         if not is_user_sensor:
+20             return Response({"error": "Invalid sensor for user"}, status=status.HTTP_404_NOT_FOUND)
+21 
+22         radiation_data = RadiationData.objects.filter(
+23             sensor_id=sensor_id,
+24             measured_at__range=(start_date, end_date)
+25         ).order_by('measured_at')
+26 
+27         if not radiation_data.exists():
+28             return Response({"error": "No data available for the selected period"}, status=status.HTTP_404_NOT_FOUND)
+29 
+30         radiation_levels = [data.radiation_level for data in radiation_data]
+31         avg_radiation = sum(radiation_levels) / len(radiation_levels)
+32         min_radiation = min(radiation_levels)
+33         max_radiation = max(radiation_levels)
+34         median_radiation = statistics.median(radiation_levels)
+35         mode_radiation = Counter(radiation_levels).most_common(1)[0][0]
+36         std_deviation = statistics.stdev(radiation_levels) if len(radiation_levels) > 1 else 0
+37 
+38         duration = (end_date - start_date).total_seconds() / 3600
+39         measurements_per_hour = len(radiation_levels) / float(duration) if duration > 0 else 0
+40 
+41         location = Location.objects.get(id=sensor.location.id)
+42         reports_dir = os.path.join(settings.MEDIA_ROOT, "reports")
+43         os.makedirs(reports_dir, exist_ok=True)
+44         report_name = f"звіт_про_рівень_радіації_{sensor_id}_{start_date.strftime('%Y%m%d')}_до_{end_date.strftime('%Y%m%d')}.pdf"
+45         report_path = os.path.join(reports_dir, report_name)
+46 
+47         c = canvas.Canvas(report_path, pagesize=letter)
+48         c.setFont("Helvetica", 14)
+49         c.drawString(50, 750, f"Radiation Level Report")
+50         c.drawString(50, 730, f"Sensor: {radiation_data.first().sensor.sensor_name}")
+51         c.drawString(50, 710, f"Location: {location.city}")
+52         c.drawString(50, 690, f"Longitude: {location.longitude}, Latitude: {location.latitude}")
+53         c.drawString(50, 670, f"Period: {start_date.date()} - {end_date.date()}")
+54         c.drawString(50, 650, f"Average radiation level: {avg_radiation:.2f}")
+55         c.drawString(50, 630, f"Minimum radiation level: {min_radiation:.2f}")
+56         c.drawString(50, 610, f"Maximum radiation level: {max_radiation:.2f}")
+57         c.drawString(50, 590, f"Median radiation level: {median_radiation:.2f}")
+58         c.drawString(50, 570, f"Mode radiation level: {mode_radiation:.2f}")
+59         c.drawString(50, 550, f"Standard Deviation: {std_deviation:.2f}")
+60         c.drawString(50, 530, f"Measurements per hour: {measurements_per_hour:.2f}")
+61         c.drawString(50, 490, f"Measurements count: {len(radiation_levels)}")
+62         c.save()
+63 
+64         relative_report_path = os.path.relpath(report_path, settings.BASE_DIR)
+65         report = Report.objects.create(
+66             user=user,
+67             sensor=sensor,
+68             report_name=f"Звіт про рівень радіації з {start_date.date()} по {end_date.date()}",
+69             report_path=relative_report_path,
+70         )
+71 
+72         serializer = ReportSerializer(report, many=False)
+73         return Response(serializer.data)
 19
 В.3 Резервне копіювання користувацьких даних.
 Github репозиторій: https://github.com/NureSharaievBohdan/apz-pzpi-22-6-
