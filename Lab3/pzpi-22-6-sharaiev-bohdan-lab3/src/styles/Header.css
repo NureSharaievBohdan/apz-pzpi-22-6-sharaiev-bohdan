@@ -1,0 +1,109 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 24px;
+  background-color: #0d6efd; 
+  color: white;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.logo {
+  font-size: 1.6rem;
+  font-weight: bold;
+  user-select: none;
+}
+
+
+
+.nav-links {
+  display: flex;
+  gap: 18px;
+  flex-grow: 1;
+}
+
+.language-switcher {
+  display: flex;
+  gap: 8px;
+  position: static;
+}
+
+
+.nav-link {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 6px 12px;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.25);
+}
+
+.nav-link.active {
+  background-color: #ffc107; 
+  color: #000;
+  font-weight: 700;
+}
+
+.language-switcher {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  display: flex;
+  gap: 8px;
+}
+
+.lang-button {
+  background: transparent;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  padding: 4px 8px;
+  cursor: pointer;
+  font-weight: bold;
+  color: #333;
+  transition: background-color 0.3s ease;
+}
+
+.lang-button:hover {
+  background-color: #eee;
+}
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-grow: 1;
+  gap: 18px;
+}
+
+.nav-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  flex-grow: 1;
+}
+
+.language-switcher {
+  display: flex;
+  gap: 8px;
+}
+
+.lang-button {
+  background: transparent;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  padding: 4px 8px;
+  cursor: pointer;
+  font-weight: bold;
+  color: #333;
+  transition: background-color 0.3s ease;
+}
+
+.lang-button:hover {
+  background-color: #eee;
+}
