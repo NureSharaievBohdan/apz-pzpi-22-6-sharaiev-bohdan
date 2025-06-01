@@ -130,9 +130,8 @@ API. Мобільний клієнт відображає інформацію �
 ДОДАТОК В
 Програмний код
 В.1 Математична обробка прикладних даних.
-GitHub репозиторій: https://github.com/NureSharaievBohdan/apz-pzpi-22-6-
-sharaiev-bohdan/blob/main/Lab4/pzpi-22-6-sharaiev-bohdanlab4/RadGuardMobile/app/src/main/java/com/example/radguardmobile/domain/Da
-ngerIndexCalculator.java
+GitHub репозиторій: https://github.com/NureSharaievBohdan/apz-pzpi-22-6-sharaiev-bohdan/blob/main/Lab4/pzpi-22-6-sharaiev-bohdan-lab4/RadGuardMobile/app/src/main/java/com/example/radguardmobile/domain/DangerIndexCalculator.java
+
 1 public double calculate(List<RadiationData> measurements) {
 2 if (measurements == null || measurements.size() < 2)
 return 0.0;
@@ -171,9 +170,8 @@ R_SAFE);
 31 return Math.max(0, Math.min(I, 1));
 32 }
 В.2 Адміністрування бізнес-логіки системи.
-GitHub репозиторій: https://github.com/NureSharaievBohdan/apz-pzpi-22-6-
-sharaiev-bohdan/blob/main/Lab4/pzpi-22-6-sharaiev-bohdanlab4/RadGuardMobile/app/src/main/java/com/example/radguardmobile/ui/Sensor
-DetailActivity.java
+GitHub репозиторій: https://github.com/NureSharaievBohdan/apz-pzpi-22-6-sharaiev-bohdan/blob/main/Lab4/pzpi-22-6-sharaiev-bohdan-lab4/RadGuardMobile/app/src/main/java/com/example/radguardmobile/ui/SensorDetailActivity.java
+
 1 private double calculateDangerIndex(List<RadiationData>
 measurements) {
 2 double R_SAFE = getRSafe();
@@ -203,9 +201,8 @@ Double.parseDouble(etPMax.getText().toString());
 22 }
 23 }
 В.3 Редагування користувацьких сенсорів.
-GitHub репозиторій: https://github.com/NureSharaievBohdan/apz-pzpi-22-6-
-sharaiev-bohdan/blob/main/Lab4/pzpi-22-6-sharaiev-bohdanlab4/RadGuardMobile/app/src/main/java/com/example/radguardmobile/repository/
-SensorRepository.java
+GitHub репозиторій: https://github.com/NureSharaievBohdan/apz-pzpi-22-6-sharaiev-bohdan/blob/main/Lab4/pzpi-22-6-sharaiev-bohdan-lab4/RadGuardMobile/app/src/main/java/com/example/radguardmobile/repository/SensorRepository.java
+
 1 public void updateSensor(Context context, int sensorId,
 String name, String status, int locationId, UpdateSensorCallback
 callback) {
