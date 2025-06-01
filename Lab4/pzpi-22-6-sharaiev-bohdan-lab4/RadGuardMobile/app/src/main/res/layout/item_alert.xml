@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="12dp"
+    android:orientation="horizontal"
+    android:background="@android:color/white"
+    android:layout_marginBottom="8dp"
+    android:elevation="4dp">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/txtAlertMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Alert message"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/black" />
+
+        <TextView
+            android:id="@+id/txtAlertLevel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Alert level"
+            android:textSize="14sp"
+            android:textColor="@android:color/holo_red_dark" />
+
+        <TextView
+            android:id="@+id/txtAlertTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Alert time"
+            android:textSize="12sp"
+            android:textColor="@android:color/darker_gray" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnDeleteAlert"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Видалити"
+        android:textSize="16sp"
+        android:minWidth="90dp"
+        android:minHeight="40dp"
+        android:layout_gravity="center_vertical" />
+</LinearLayout>
