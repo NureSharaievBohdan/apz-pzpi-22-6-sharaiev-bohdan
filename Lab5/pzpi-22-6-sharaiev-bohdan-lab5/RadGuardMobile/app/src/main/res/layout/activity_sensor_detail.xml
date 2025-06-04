@@ -1,0 +1,172 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/detailLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/tvDetailName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Назва сенсора"
+        android:textSize="18sp"
+        android:textStyle="normal"
+        android:textColor="#000000"
+        android:fontFamily="sans-serif-medium"/>
+
+    <TextView
+        android:id="@+id/tvDetailStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Статус"
+        android:textSize="14sp"
+        android:textStyle="normal"
+        android:layout_marginTop="6dp"/>
+
+    <TextView
+        android:id="@+id/tvDetailLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Локація"
+        android:textSize="14sp"
+        android:textStyle="normal"
+        android:layout_marginTop="4dp"/>
+
+    <TextView
+        android:id="@+id/tvDetailLastUpdate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Останнє оновлення"
+        android:textSize="14sp"
+        android:textStyle="normal"
+        android:layout_marginTop="4dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="14dp">
+
+        <Button
+            android:id="@+id/btnEditSensor"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="Редагувати"
+            android:textSize="14sp"
+            android:textStyle="normal"
+            android:minHeight="36dp"
+            android:paddingVertical="6dp"/>
+
+        <Button
+            android:id="@+id/btnDeleteSensor"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="Видалити"
+            android:textSize="14sp"
+            android:textStyle="normal"
+            android:minHeight="36dp"
+            android:paddingVertical="6dp"
+            android:layout_marginStart="8dp"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvMeasurementsLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Вимірювання радіації"
+        android:textSize="16sp"
+        android:textStyle="normal"
+        android:layout_marginTop="20dp"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerMeasurements"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="8dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="12dp"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="R_SAFE:"
+            android:textSize="14sp"/>
+
+        <EditText
+            android:id="@+id/etRSafe"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:text="0.3"
+            android:textSize="14sp"
+            android:ems="4"
+            android:layout_marginStart="6dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="мкЗв/год"
+            android:textSize="14sp"
+            android:layout_marginStart="6dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="8dp"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="P_MAX:"
+            android:textSize="14sp"/>
+
+        <EditText
+            android:id="@+id/etPMax"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:text="100.0"
+            android:textSize="14sp"
+            android:ems="4"
+            android:layout_marginStart="6dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textSize="14sp"
+            android:layout_marginStart="6dp"/>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnCalculateIndex"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Обчислити індекс"
+        android:textSize="14sp"
+        android:textStyle="normal"
+        android:minHeight="36dp"
+        android:layout_marginTop="12dp"/>
+
+    <TextView
+        android:id="@+id/tvDangerIndex"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Індекс потенційної небезпеки: 0.000"
+        android:textSize="14sp"
+        android:textStyle="normal"
+        android:layout_marginTop="14dp"/>
+
+</LinearLayout>
