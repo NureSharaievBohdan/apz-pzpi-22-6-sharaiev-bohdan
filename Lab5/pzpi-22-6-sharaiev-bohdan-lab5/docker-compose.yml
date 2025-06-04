@@ -1,0 +1,28 @@
+version: '3.9'
+
+services:
+  backend:
+    build:
+      context: ./RadGuard
+    container_name: radguard_backend
+    volumes:
+      - ./RadGuard:/app
+    ports:
+      - "8000:8000"
+    environment:
+      - DB_NAME=RadGuard
+      - DB_USER=postgres
+      - DB_PASSWORD=12345678
+      - DB_HOST=host.docker.internal
+      - DB_PORT=5432
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  frontend:
+    build:
+      context: ./RadGuardFront/radguard
+    container_name: radguard_frontend
+    ports:
+      - "3000:3000"
+    stdin_open: true
+    tty: true
