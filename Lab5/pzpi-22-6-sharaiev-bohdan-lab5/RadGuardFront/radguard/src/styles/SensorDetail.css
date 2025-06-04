@@ -1,0 +1,79 @@
+.sensor-details {
+  max-width: 800px;
+  margin: 30px auto;
+  padding: 20px;
+  background-color: #f9fafb;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  font-family: "Segoe UI", sans-serif;
+}
+
+.sensor-details h2 {
+  color: #2b2d42;
+  margin-bottom: 10px;
+}
+
+.sensor-info p {
+  margin: 5px 0;
+}
+
+.radiation-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.radiation-table th, .radiation-table td {
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.radiation-table th {
+  background-color: #e7f0fd;
+  color: #333;
+}
+
+.forecast-button {
+  margin-top: 10px;
+  padding: 10px 20px;
+  background-color: #0077cc;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 15px;
+  transition: background-color 0.3s ease;
+}
+
+.forecast-button:hover {
+  background-color: #005fa3;
+}
+
+.forecast-button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.forecast-box {
+  margin-top: 15px;
+  padding: 15px;
+  background-color: #f3f9f9;
+  border-left: 5px solid #0077cc;
+  border-radius: 6px;
+}
+
+.loading {
+  text-align: center;
+  font-size: 18px;
+}
+
+.error {
+  color: red;
+  font-weight: bold;
+  text-align: center;
+}
